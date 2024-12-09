@@ -3,8 +3,8 @@ namespace App;
 class DB
 {
     public $host = "localhost";
-    public $user = "root";
-    public $pass = "20071010";
+    public $user = "axror";
+    public $pass = "Xc0~t05VF\"`_";
     public $db_name = "todo_app";
     public $conn;
     public function __construct(){
