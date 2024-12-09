@@ -1,0 +1,6 @@
+#idea ignor
+.idea
+#vender
+vendor
+#.env
+.env
