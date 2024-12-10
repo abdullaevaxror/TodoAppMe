@@ -4,7 +4,7 @@ class DB
 {
     public $host = "localhost";
     public $user = "root";
-    public $pass = "20071010";
+    public $pass = "2005";
     public $db_name = "todo_app";
     public $conn;
     public function __construct(){
