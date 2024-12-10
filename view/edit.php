@@ -1,4 +1,5 @@
-<?php require 'components/header.php'?>
+<?php require 'view/components/header.php'?>
+<?php require 'view/components/navbar.php'?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -98,11 +99,11 @@
             box-shadow: 0 12px 20px rgba(204, 81, 81, 0.6);
             transform: translateY(3px);
         }
+        .form-label {
+            color: black;
+        }
 
     </style>
-</head>
-<body>
-
 <div class="edit-form">
     <h1>Edit Task</h1>
 
@@ -137,4 +138,4 @@
         <a href="/todos" class="btn-cancel">Cancel</a>
     </form>
 </div>
-<?php require 'components/footer.php'?>
+<?php require 'view/components/footer.php'?>
