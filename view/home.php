@@ -1,4 +1,5 @@
-<?php require 'components/header.php'?>
+<?php require 'view/components/header.php'?>
+<?php require 'view/components/navbar.php'?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -67,8 +68,7 @@
             color: #721c24;
         }
     </style>
-</head>
-<body>
+<?php require 'view/components/navbar.php'?>
 <div class="container mt-5">
     <div class="row d-flex justify-content-center">
         <div class="todo-body">
@@ -118,4 +118,4 @@
         </div>
     </div>
 </div>
-<?php require 'components/footer.php'?>
+<?php require 'view/components/footer.php'?>

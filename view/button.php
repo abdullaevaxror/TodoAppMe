@@ -1,4 +1,5 @@
-<?php require 'components/header.php'?>
+<?php require 'view/components/header.php'?>
+<?php require 'view/components/navbar.php'?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -11,7 +12,7 @@
             color: white;
         }
 
-        .custom-button {
+        .custom-button-but {
             position: relative;
             background: linear-gradient(90deg, #7ef0ff, #17565e);
             color: #fff;
@@ -29,13 +30,13 @@
             margin: 10px;
         }
 
-        .custom-button:hover {
+        .custom-button-but:hover {
             background: linear-gradient(90deg, #8eff75, #39fd3d);
             box-shadow: 0 12px 20px rgba(85, 204, 81, 0.6);
             transform: translateY(-3px);
         }
 
-        .custom-button::before {
+        .custom-button-but::before {
             content: '';
             position: absolute;
             top: 0;
@@ -47,10 +48,10 @@
             transition: all 0.5s ease;
         }
 
-        .custom-button:hover::before {
+        .custom-button-but:hover::before {
             left: 100%;
         }
     </style>
-<a href="/todos" class="custom-button">Go to Todo</a>
-<a href="/bot" class="custom-button">Telegram</a>
-<?php require 'components/footer.php'?>
+<a href="/todos" class="custom-button-but">Go to Todo</a>
+<a href="/bot" class="custom-button-but">Telegram</a>
+<?php require 'view/components/footer.php'?>
