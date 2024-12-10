@@ -14,6 +14,14 @@ class Controller
     {
         require 'view/button.php';
     }
+    public function login()
+    {
+        require 'view/login.php';
+    }
+    public function sing()
+    {
+        require 'view/sing.php';
+    }
     public function bot()
     {
         require 'app/bot.php';
@@ -80,5 +88,8 @@ class Controller
                   </div>";
         }
     }
+    public function storeUser()
+    {
 
+    }
 }
