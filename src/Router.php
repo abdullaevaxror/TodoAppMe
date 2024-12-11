@@ -17,14 +17,12 @@ class Router
             return;
         }
 
-        // Yo'nalishni {id} kabi o'zgaruvchilarni regexga o'zgartirish
         $pattern = preg_replace(pattern: /** @lang text */ '/\{([a-zA-Z_]+)\}/', replacement: '([^/]+)', subject: $route);
         $pattern = "~^" . $pattern . "$~";
 
-        // Joriy yo'nalish bilan o'zgaruvchilarni moslashtirish
         if (preg_match($pattern, $this->currentRoute, $matches)) {
-            array_shift($matches); // To'liq moslashuvni olib tashlash
-            $callback(...$matches); // Parametrlarni callback funksiyasiga uzatish
+            array_shift($matches);
+            $callback(...$matches);
             exit();
         }
     }
