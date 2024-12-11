@@ -25,7 +25,7 @@
 
 <div class="form-container">
     <h2 class="text-center form-header">Login to Your Account</h2>
-    <form action="login.php" method="POST">
+    <form action="/login" method="POST">
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
@@ -40,8 +40,7 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Login</button>
         <div class="text-center mt-3">
-            <p>Don't have an account? <a href="register.php">Register here</a></p>
-            <p><a href="forgot-password.php">Forgot your password?</a></p>
+            <p>Don't have an account? <a href="/register">Register here</a></p>
         </div>
     </form>
 </div>

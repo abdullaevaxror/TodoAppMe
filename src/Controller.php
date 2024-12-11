@@ -18,16 +18,15 @@ class Controller
     {
         require 'view/login.php';
     }
-    public function sing()
+    public function register()
     {
-        require 'view/sing.php';
+        require 'view/register.php';
     }
     public function bot()
     {
         require 'app/bot.php';
     }
 
-    // Todosni ko'rsatish
     public function showTodos()
     {
         $todos = $this->todo->get();
@@ -88,8 +87,47 @@ class Controller
                   </div>";
         }
     }
-    public function storeUser()
-    {
-
+    public function storeUser(): void {
+        if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {
+            if ($_POST['password'] != $_POST['repeat_password']) {
+                $_SESSION['error_message'][] = 'The passwords do not match';
+                header('Location: /register');
+                exit();
+            }
+            $lastUserId = (new \App\User())->register($_POST['full_name'], $_POST['email'], $_POST['password']);
+            if ($lastUserId) {
+                unset($_SESSION['error_message']);
+                $_SESSION['user_id'] = $lastUserId;
+                header('Location: /todos');
+                exit();
+            }
+            $_SESSION['error_message'] = 'Bu email band qilingan';
+            header('Location: /register');
+            exit();
+        }
+        $_SESSION['error_message'][] = 'Hamma maydonlarni to‘ldiring';
+        header('Location: /register');
+        exit();
     }
+    public function storeLogin(): void {
+        if (!empty($_POST['email']) && !empty($_POST['password'])) {
+            $user = (new \App\User())->login($_POST['email'], $_POST['password']);
+
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                unset($_SESSION['error_message']);
+
+                header('Location: /todos');
+                exit();
+            }
+            $_SESSION['error_message'] = 'Noto\'g\'ri email yoki parol';
+            header('Location: /login');
+            exit();
+        }
+        $_SESSION['error_message'][] = 'Email va parolni to\'ldiring';
+        header('Location: /login');
+        exit();
+    }
+
 }

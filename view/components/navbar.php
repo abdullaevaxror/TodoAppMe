@@ -5,7 +5,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <ul class="navbar-list">
         <li><a href="/">Home</a></li>
         <li><a href="/login">Login</a></li>
-        <li><a href="/sing">Register</a></li>
+        <li><a href="/register">Register</a></li>
     </ul>
 </nav>
 
