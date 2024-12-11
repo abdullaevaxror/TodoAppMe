@@ -109,5 +109,25 @@ class Controller
         header('Location: /register');
         exit();
     }
+    public function storeLogin(): void {
+        if (!empty($_POST['email']) && !empty($_POST['password'])) {
+            $user = (new \App\User())->login($_POST['email'], $_POST['password']);
+
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                unset($_SESSION['error_message']);
+
+                header('Location: /todos');
+                exit();
+            }
+            $_SESSION['error_message'] = 'Noto\'g\'ri email yoki parol';
+            header('Location: /login');
+            exit();
+        }
+        $_SESSION['error_message'][] = 'Email va parolni to\'ldiring';
+        header('Location: /login');
+        exit();
+    }
 
 }

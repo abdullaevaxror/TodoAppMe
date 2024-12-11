@@ -39,7 +39,7 @@
             <label for="confirm-password" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" id="confirm-password" name="repeat_password" placeholder="Re-enter your password" required>
         </div>
-        <p class="text-danger text-center" style="display: flex; "><?= $_SESSION['error_massege'] ?? ''?></p>
+        <p class="text-danger text-center" style="display: block; "><?= $_SESSION['error_massege'] ?? ''?></p>
         <button type="submit" class="btn btn-primary w-100">Register</button>
         <div class="text-center mt-3">
             <p>Already have an account? <a href="/login">Login here</a></p>
