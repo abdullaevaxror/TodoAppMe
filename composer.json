@@ -1,7 +1,8 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.6",
-        "guzzlehttp/guzzle": "^7.9"
+        "guzzlehttp/guzzle": "^7.9",
+        "larapack/dd": "^1.1"
     },
     "autoload": {
         "psr-4": {
