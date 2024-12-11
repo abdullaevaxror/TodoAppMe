@@ -18,7 +18,7 @@ class Router
         }
 
         // Yo'nalishni {id} kabi o'zgaruvchilarni regexga o'zgartirish
-        $pattern = preg_replace('/\{([a-zA-Z_]+)\}/', '([^/]+)', $route);
+        $pattern = preg_replace(pattern: /** @lang text */ '/\{([a-zA-Z_]+)\}/', replacement: '([^/]+)', subject: $route);
         $pattern = "~^" . $pattern . "$~";
 
         // Joriy yo'nalish bilan o'zgaruvchilarni moslashtirish
@@ -38,9 +38,29 @@ class Router
     // POST so'rovi
     public function postRoute($route, $callback): void
     {
-        $this->resolveRoute($route, $callback, 'POST');
+//        $this->resolveRoute($route, $callback, 'POST');
     }
     // Router.php
+    public function post($route, $callback)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $resourceId =  $this->getResource();
+            $route = str_replace('{id}', $resourceId, $route);
+            if ($route==$this->currentRoute){
+                $callback($resourceId);
+                exit();
+            }
+        }
+    }
+    public function getResource()
+    {
+        if (isset(explode("/", $this->currentRoute)[2])) {
+            $resourceId =  explode("/", $this->currentRoute)[2];
+            return $resourceId;
+        }
+        return false;
+    }
+
     public function deleteRoute($route, $callback): void
     {
         $this->resolveRoute($route, $callback, 'DELETE');
