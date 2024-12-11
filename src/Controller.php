@@ -33,14 +33,12 @@ class Controller
         view('home', ['todos' => $todos]);
     }
 
-    // Todo taskini tahrirlash formasi
     public function updateTodoForm($id)
     {
         $task = $this->todo->getById($id);
         view('edit', ['task' => $task]);
     }
 
-    // Todo taskini yangilash
     public function updateTodoData($id)
     {
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
@@ -87,17 +85,19 @@ class Controller
                   </div>";
         }
     }
-    public function storeUser(): void {
+    public function storeUser():mixed {
         if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {
             if ($_POST['password'] != $_POST['repeat_password']) {
                 $_SESSION['error_message'][] = 'The passwords do not match';
                 header('Location: /register');
                 exit();
             }
-            $lastUserId = (new \App\User())->register($_POST['full_name'], $_POST['email'], $_POST['password']);
-            if ($lastUserId) {
+            $user = (new \App\User())->register($_POST['full_name'], $_POST['email'], $_POST['password']);
+            if ($user) {
+                unset($user['password']);
                 unset($_SESSION['error_message']);
-                $_SESSION['user_id'] = $lastUserId;
+                /** @var TYPE_NAME $user */
+                $_SESSION['user'] = $user;
                 header('Location: /todos');
                 exit();
             }
@@ -114,8 +114,8 @@ class Controller
             $user = (new \App\User())->login($_POST['email'], $_POST['password']);
 
             if ($user) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['email'] = $user['email'];
+                unset($user['password']);
+                $_SESSION['user'] = $user;
                 unset($_SESSION['error_message']);
 
                 header('Location: /todos');
@@ -129,5 +129,4 @@ class Controller
         header('Location: /login');
         exit();
     }
-
 }

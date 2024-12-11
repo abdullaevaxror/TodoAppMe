@@ -1,11 +1,32 @@
-<?php
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
+
 <nav class="navbar">
     <ul class="navbar-list">
-        <li><a href="/">Home</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <?php
+        if (isset($_SESSION['user'])) :
+            ?>
+            <li class="dropdown">
+                <a href="/todos" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                         class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd"
+                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/todos">To-do List</a></li>
+                    <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['full_name'] ?? '' ?></a></li>
+                </ul>
+            </li>
+        <?php
+        else:
+            ?>
+            <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
+            <li class="nav-item"><a class="btn btn-primary" href="/register">Register</a></li>
+        <?php
+        endif;
+        ?>
     </ul>
 </nav>
 
@@ -57,5 +78,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     .main-content {
         padding-top: 60px;
+    }
+    .dropdown-menu{
+        background-color: #444444;
+        color: white;
     }
 </style>

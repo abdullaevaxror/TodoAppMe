@@ -23,21 +23,27 @@ class User
     }
 
     // Ro'yxatdan o'tish metodi
-    public function register(string $fullName, string $email, string $password): bool {
-        // Emailni tekshirish
+    public function register(string $fullName, string $email, string $password):mixed {
         if ($this->isEmailExist($email)) {
             echo "Bu email allaqachon ro'yxatdan o'tgan!";
-            return false; // Email mavjud bo'lsa, ro'yxatdan o'tishni to'xtatish
+            return false;
         }
 
-        // Email mavjud emas, ro'yxatdan o'tkazamiz
         $query = 'INSERT INTO users (full_name, email, password) VALUES (:full_name, :email, :password)';
         $stmt = $this->pdo->prepare($query);
-        return $stmt->execute([
+        $stmt->execute([
             ':full_name' => $fullName,
             ':email' => $email,
             ':password' => password_hash($password, PASSWORD_DEFAULT)
         ]);
+        $id = $this->pdo->lastInsertId();
+        return $this->getUserById($id);
+    }
+    public function getUserById(int $id): array{
+        $query = 'SELECT * FROM users WHERE id = :id';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function login(string $email, string $password): bool|array {
