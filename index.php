@@ -11,6 +11,7 @@ $controller = new Controller();
 
 $router->getRoute('/', [$controller, 'home']);
 $router->getRoute('/bot', [$controller, 'bot']);
+$router->post('/logout', [$controller, 'logout']);
 
 $router->getRoute('/register', [$controller, 'register']);
 $router->post('/register', [$controller, 'storeUser']);

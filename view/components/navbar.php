@@ -2,9 +2,15 @@
 <nav class="navbar">
     <ul class="navbar-list">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
         <?php
         if (isset($_SESSION['user'])) :
             ?>
+        <form action="/logout" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </form>
             <li class="dropdown">
                 <a href="/todos" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
