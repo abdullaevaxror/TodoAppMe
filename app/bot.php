@@ -9,3 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bot->handleRequest(file_get_contents('php://input'));
 }
 echo "Telegram ishladi!";
+
+
+
+
+
+echo "salom";

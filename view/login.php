@@ -2,7 +2,7 @@
 <?php require 'view/components/navbar.php'?>
     <style>
         body {
-            background-color: #e9ecef;
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,6 +18,26 @@
         }
         .form-header {
             margin-bottom: 20px;
+        }
+        .btn {
+            position: relative;
+            background: linear-gradient(90deg, #7ef0ff, #17565e);
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 15px rgba(117, 255, 149, 0.4);
+            overflow: hidden;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #8eff75, #39fd3d);
+            box-shadow: 0 12px 20px rgba(85, 204, 81, 0.6);
+            transform: translateY(-3px);
         }
     </style>
 </head>

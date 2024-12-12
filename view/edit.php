@@ -99,6 +99,9 @@
             box-shadow: 0 12px 20px rgba(204, 81, 81, 0.6);
             transform: translateY(3px);
         }
+        .form-label {
+            color: black;
+        }
 
     </style>
 <div class="edit-form">

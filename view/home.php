@@ -68,7 +68,8 @@
             color: #721c24;
         }
     </style>
-<?php require 'view/components/navbar.php'?>
+</head>
+<body>
 <div class="container mt-5">
     <div class="row d-flex justify-content-center">
         <div class="todo-body">
@@ -118,4 +119,4 @@
         </div>
     </div>
 </div>
-<?php require 'view/components/footer.php'?>
+<?php require 'components/footer.php'?>

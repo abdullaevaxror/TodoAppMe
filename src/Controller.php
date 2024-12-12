@@ -29,7 +29,8 @@ class Controller
 
     public function showTodos()
     {
-        $todos = $this->todo->get();
+        $user_id = $_SESSION['user']['id'];
+        $todos = $this->todo->get($user_id);
         view('home', ['todos' => $todos]);
     }
 

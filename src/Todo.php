@@ -10,17 +10,19 @@ class Todo
         $this->db = new DB();
     }
 
-    public function get()
+    public function get(int $user_id)
     {
-        $stmt = $this->db->conn->prepare("SELECT * FROM todo ORDER BY created_at DESC");
-        $stmt->execute();
+        $stmt = $this->db->conn->prepare("SELECT * FROM todo WHERE user_id=:user_id");
+        $stmt->execute([
+            'user_id' => $user_id
+        ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function store($title, $due_date, $status)
+    public function store($title, $due_date, $status,$user_id)
     {
         $stmt = $this->db->conn->prepare(
-            "INSERT INTO todo (title, status, due_date, created_at, upload_at) VALUES (:title, :status, :due_date, NOW(), NOW())"
+            "INSERT INTO todo (title, status, due_date, created_at, updated_at,user_id) VALUES (:title, :status, :due_date, NOW(), NOW()),:user_id"
         );
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':due_date', $due_date);
@@ -28,10 +30,9 @@ class Todo
         $stmt->execute();
     }
 
-
     public function updateStatus($task_id, $status)
     {
-        $stmt = $this->db->conn->prepare("UPDATE todo SET status = :status, upload_at = NOW() WHERE id = :id");
+        $stmt = $this->db->conn->prepare("UPDATE todo SET status = :status, updated_at = NOW() WHERE id = :id");
         $stmt->bindParam(':id', $task_id);
         $stmt->bindParam(':status', $status);
         $stmt->execute();
@@ -51,8 +52,8 @@ class Todo
     }
     public function update($id, $title, $due_date, $status) {
         $stmt = $this->db->conn->prepare("
-        UPDATE todo
-        SET title = :title, due_date = :due_date, status = :status, upload_at = NOW() 
+        UPDATE todo 
+        SET title = :title, due_date = :due_date, status = :status, updated_at = NOW() 
         WHERE id = :id
     ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
