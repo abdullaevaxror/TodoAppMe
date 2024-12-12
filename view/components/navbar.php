@@ -40,7 +40,7 @@
 
 <style>
     .navbar {
-        background-color: #333;
+        background-color:#000053;
         color: white;
         padding: 10px 20px;
         position: fixed;

@@ -51,11 +51,8 @@ class Controller
 
     public function storeTodo()
     {
-        if (!$_SESSION['user']) {
-            header('Location: /login');
-        }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
-            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'] ,$_SESSION['user']['id']);
+            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status']);
         }
         header('Location: /todos');
         exit();
@@ -69,6 +66,7 @@ class Controller
 
     public function deleteTodoData($id)
     {
+        // Ma'lumotlar bazasidan o'chirish
         if ($id) {
             /** @var TYPE_NAME $db */
             $db->delete("DELETE FROM todos WHERE id = $id");
