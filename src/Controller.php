@@ -1,6 +1,8 @@
 <?php
 namespace App;
 
+use JetBrains\PhpStorm\NoReturn;
+
 class Controller
 {
     private Todo $todo;
@@ -27,14 +29,20 @@ class Controller
         require 'app/bot.php';
     }
 
-    public function showTodos()
+    public function showTodos(): void
     {
+        if (empty($_SESSION['user'])) {
+            header('Location: /login');
+            exit();
+        }
+
         $user_id = $_SESSION['user']['id'];
         $todos = $this->todo->get($user_id);
         view('home', ['todos' => $todos]);
     }
 
-    public function updateTodoForm($id)
+
+    public function updateTodoForm($id): void
     {
         $task = $this->todo->getById($id);
         view('edit', ['task' => $task]);
@@ -51,8 +59,11 @@ class Controller
 
     public function storeTodo()
     {
+        if (!$_SESSION['user']) {
+            header('Location: /login');
+        }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
-            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status']);
+            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'] ,$_SESSION['user']['id']);
         }
         header('Location: /todos');
         exit();
@@ -64,40 +75,19 @@ class Controller
         exit();
     }
 
-    public function deleteTodoData($id)
-    {
-        // Ma'lumotlar bazasidan o'chirish
-        if ($id) {
-            /** @var TYPE_NAME $db */
-            $db->delete("DELETE FROM todos WHERE id = $id");
-            echo "Todo o'chirildi!";
-        } else {
-            echo "ID topilmadi!";
-        }
-    }
-
-    public function index()
-    {
-        /** @var TYPE_NAME $db */
-        $todos = $db->select("SELECT * FROM todo");
-        foreach ($todos as $todo) {
-            echo "<div>{$todo['task']} 
-                    <a href='/delete/{$todo['id']}'>O'chirish</a>
-                  </div>";
-        }
-    }
-    public function storeUser():mixed {
+     public function storeUser(): void
+     {
         if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {
             if ($_POST['password'] != $_POST['repeat_password']) {
                 $_SESSION['error_message'][] = 'The passwords do not match';
                 header('Location: /register');
                 exit();
             }
-            $user = (new \App\User())->register($_POST['full_name'], $_POST['email'], $_POST['password']);
+            $user_App = (new \App\User());
+            $user = $user_App->register($_POST['full_name'], $_POST['email'], $_POST['password']);
             if ($user) {
                 unset($user['password']);
                 unset($_SESSION['error_message']);
-                /** @var TYPE_NAME $user */
                 $_SESSION['user'] = $user;
                 header('Location: /todos');
                 exit();
