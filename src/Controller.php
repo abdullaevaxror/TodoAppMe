@@ -29,7 +29,8 @@ class Controller
 
     public function showTodos()
     {
-        $todos = $this->todo->get();
+        $user_id = $_SESSION['user']['id'];
+        $todos = $this->todo->get($user_id);
         view('home', ['todos' => $todos]);
     }
 
@@ -50,8 +51,11 @@ class Controller
 
     public function storeTodo()
     {
+        if(!$_SESSION['user']){
+            header('Location: /login');
+        }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
-            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status']);
+            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'],$_SESSION['user']['id']);
         }
         header('Location: /todos');
         exit();

@@ -10,21 +10,24 @@ class Todo
         $this->db = new DB();
     }
 
-    public function get()
+    public function get(int $user_id)
     {
-        $stmt = $this->db->conn->prepare("SELECT * FROM todo ORDER BY created_at DESC");
-        $stmt->execute();
+        $stmt = $this->db->conn->prepare("SELECT * FROM todo WHERE user_id=:user_id");
+        $stmt->execute([
+            'user_id' => $user_id
+        ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function store($title, $due_date, $status)
+    public function store($title, $due_date, $status,$user_id)
     {
         $stmt = $this->db->conn->prepare(
-            "INSERT INTO todo (title, status, due_date, created_at, updated_at) VALUES (:title, :status, :due_date, NOW(), NOW())"
+            "INSERT INTO todo (title, status, due_date, created_at, updated_at,user_id) VALUES (:title, :status, :due_date, NOW(), NOW()),:user_id"
         );
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':due_date', $due_date);
         $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
     }
 
