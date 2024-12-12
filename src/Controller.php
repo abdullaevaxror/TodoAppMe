@@ -50,11 +50,13 @@ class Controller
 
     public function storeTodo()
     {
-        if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
-            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status']);
+        if ($_SESSION['user']){
+            redirect('/login');
         }
-        header('Location: /todos');
-        exit();
+        if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
+            (new \App\Todo())->store($_POST['title'], $_POST['due_date'], $_SESSION['user']);
+            redirect('/todos');
+        }
     }
     public function deleteTodo($id)
     {
@@ -141,5 +143,9 @@ class Controller
         }
         session_destroy();
         header('Location: /login');
+    }
+
+    private function redirect(string $string)
+    {
     }
 }

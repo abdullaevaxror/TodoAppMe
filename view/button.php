@@ -30,6 +30,7 @@
             margin: 10px;
         }
 
+
         .custom-button-but:hover {
             background: linear-gradient(90deg, #8eff75, #39fd3d);
             box-shadow: 0 12px 20px rgba(85, 204, 81, 0.6);
