@@ -53,7 +53,7 @@ class Controller
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
             $this->todo->update($id, $_POST['title'], $_POST['due_date'], $_POST['status']);
         }
-        redirect('todo');
+        redirect('todos');
         exit();
     }
 
@@ -65,13 +65,13 @@ class Controller
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
             $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'] ,$_SESSION['user']['id']);
         }
-        redirect('todo');
+        redirect('todos');
         exit();
     }
     public function deleteTodo($id)
     {
         $this->todo->delete($id);
-        redirect('todo');
+        redirect('todos');
         exit();
     }
 
@@ -89,7 +89,7 @@ class Controller
                 unset($user['password']);
                 unset($_SESSION['error_message']);
                 $_SESSION['user'] = $user;
-                redirect('todo');
+                redirect('todos');
                 exit();
             }
             $_SESSION['error_message'] = 'Bu email band qilingan';
@@ -109,7 +109,7 @@ class Controller
                 $_SESSION['user'] = $user;
                 unset($_SESSION['error_message']);
 
-                redirect('todo');
+                redirect('todos');
                 exit();
             }
             $_SESSION['error_message'] = 'Noto\'g\'ri email yoki parol';
