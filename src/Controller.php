@@ -14,15 +14,15 @@ class Controller
 
     public function home()
     {
-        require 'view/button.php';
+        view('button');
     }
     public function login()
     {
-        require 'view/login.php';
+        view('login');
     }
     public function register()
     {
-        require 'view/register.php';
+        view('register');
     }
     public function bot()
     {
@@ -32,7 +32,7 @@ class Controller
     public function showTodos(): void
     {
         if (empty($_SESSION['user'])) {
-            header('Location: /login');
+            redirect('/login');
             exit();
         }
 
@@ -53,25 +53,25 @@ class Controller
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
             $this->todo->update($id, $_POST['title'], $_POST['due_date'], $_POST['status']);
         }
-        header('Location: /todos');
+        redirect('todo');
         exit();
     }
 
     public function storeTodo()
     {
         if (!$_SESSION['user']) {
-            header('Location: /login');
+            redirect('/login');
         }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
             $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'] ,$_SESSION['user']['id']);
         }
-        header('Location: /todos');
+        redirect('todo');
         exit();
     }
     public function deleteTodo($id)
     {
         $this->todo->delete($id);
-        header('Location: /todos');
+        redirect('todo');
         exit();
     }
 
@@ -80,7 +80,7 @@ class Controller
         if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {
             if ($_POST['password'] != $_POST['repeat_password']) {
                 $_SESSION['error_message'][] = 'The passwords do not match';
-                header('Location: /register');
+                redirect('register');
                 exit();
             }
             $user_App = (new \App\User());
@@ -89,15 +89,15 @@ class Controller
                 unset($user['password']);
                 unset($_SESSION['error_message']);
                 $_SESSION['user'] = $user;
-                header('Location: /todos');
+                redirect('todo');
                 exit();
             }
             $_SESSION['error_message'] = 'Bu email band qilingan';
-            header('Location: /register');
+            redirect('register');
             exit();
         }
         $_SESSION['error_message'][] = 'Hamma maydonlarni to‘ldiring';
-        header('Location: /register');
+        redirect('register');
         exit();
     }
     public function storeLogin(): void {
@@ -109,15 +109,15 @@ class Controller
                 $_SESSION['user'] = $user;
                 unset($_SESSION['error_message']);
 
-                header('Location: /todos');
+                redirect('todo');
                 exit();
             }
             $_SESSION['error_message'] = 'Noto\'g\'ri email yoki parol';
-            header('Location: /login');
+            redirect('login');
             exit();
         }
         $_SESSION['error_message'][] = 'Email va parolni to\'ldiring';
-        header('Location: /login');
+        redirect('login');
         exit();
     }
     public function logout(): void {
@@ -131,6 +131,6 @@ class Controller
             );
         }
         session_destroy();
-        header('Location: /login');
+        redirect('login');
     }
 }
