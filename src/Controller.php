@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 class Controller
@@ -14,14 +15,17 @@ class Controller
     {
         require 'view/button.php';
     }
+
     public function login()
     {
         require 'view/login.php';
     }
+
     public function register()
     {
         require 'view/register.php';
     }
+
     public function bot()
     {
         require 'app/bot.php';
@@ -29,7 +33,11 @@ class Controller
 
     public function showTodos()
     {
-        $user_id = $_SESSION['user']['id'];
+        $user_id = 0;
+
+        if (isset($_SESSION['user']['id'])) {
+            $user_id = $_SESSION['user']['id'];
+        }
         $todos = $this->todo->get($user_id);
         view('home', ['todos' => $todos]);
     }
@@ -51,13 +59,17 @@ class Controller
 
     public function storeTodo()
     {
-        if ($_SESSION['user']){
-            redirect('/login');
+
+        if(!$_SESSION['user']){
+            header('Location: /login');
         }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
-            (new \App\Todo())->store($_POST['title'], $_POST['due_date'], $_SESSION['user']);
-            redirect('/todos');
+
+            $this->todo->store($_POST['title'], $_POST['due_date'], $_POST['status'],$_SESSION['user']['id']);
+
         }
+        header('Location: /todos');
+        exit();
     }
     public function deleteTodo($id)
     {
@@ -88,7 +100,9 @@ class Controller
                   </div>";
         }
     }
-    public function storeUser():mixed {
+
+    public function storeUser(): mixed
+    {
         if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {
             if ($_POST['password'] != $_POST['repeat_password']) {
                 $_SESSION['error_message'][] = 'The passwords do not match';
@@ -112,7 +126,9 @@ class Controller
         header('Location: /register');
         exit();
     }
-    public function storeLogin(): void {
+
+    public function storeLogin(): void
+    {
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             $user = (new \App\User())->login($_POST['email'], $_POST['password']);
 
@@ -132,7 +148,9 @@ class Controller
         header('Location: /login');
         exit();
     }
-    public function logout(): void {
+
+    public function logout(): void
+    {
         $_SESSION = [];
 
         if (ini_get("session.use_cookies")) {

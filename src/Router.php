@@ -27,36 +27,58 @@ class Router
         }
     }
 
+    public function getResource($route)
+    {
+        $resourceIndex = mb_stripos($route, '{id}');
+        if ($resourceIndex) {
+            return false;
+        }
+        $resourceValue = substr($this->currentRoute, $resourceIndex);
+
+        if ($limit = mb_stripos($resourceValue, '/')) {
+
+            return substr($resourceValue, 0, $limit);
+        }
+
+        return $resourceValue ?: false;
+
+    }
+
     // GET so'rovi
     public function getRoute($route, $callback): void
     {
-        $this->resolveRoute($route, $callback, 'GET');
+        if ($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $resourceValue = $this->getResource($route);
+            if ($resourceValue) {
+                $resourceRoute = str_replace('{id}', $resourceValue, $route);
+                if ($resourceRoute == $this->currentRoute){
+                    $callback($resourceRoute);
+                    exit();
+                }
+            }
+            if ($route == $this->currentRoute){
+                $callback();
+                exit();
+            }
+        }
     }
 
     // POST so'rovi
-    public function postRoute($route, $callback): void
-    {
+//    public function postRoute($route, $callback): void
+//    {
 //        $this->resolveRoute($route, $callback, 'POST');
-    }
+//    }
     // Router.php
     public function post($route, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $resourceId =  $this->getResource();
+            $resourceId =  $this->getResource($route);
             $route = str_replace('{id}', $resourceId, $route);
             if ($route==$this->currentRoute){
                 $callback($resourceId);
                 exit();
             }
         }
-    }
-    public function getResource()
-    {
-        if (isset(explode("/", $this->currentRoute)[2])) {
-            $resourceId =  explode("/", $this->currentRoute)[2];
-            return $resourceId;
-        }
-        return false;
     }
 
     public function deleteRoute($route, $callback): void

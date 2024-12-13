@@ -22,11 +22,12 @@ class Todo
     public function store($title, $due_date, $status,$user_id)
     {
         $stmt = $this->db->conn->prepare(
-            "INSERT INTO todo (title, status, due_date, created_at, updated_at,user_id) VALUES (:title, :status, :due_date, NOW(), NOW()),:user_id"
+            "INSERT INTO todo (title, status, due_date, created_at, updated_at, user_id) VALUES (:title, :status, :due_date, NOW(), NOW(),:user_id)"
         );
         $stmt->bindParam(':title', $title);
         $stmt->bindParam(':due_date', $due_date);
         $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
     }
 
