@@ -25,12 +25,14 @@ class Router
 
     public function getRoute($route, $callback): void
     {
-        var_dump(123);
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $resourceValues = $this->getResource($route);
             if ($resourceValues) {
-                $callback($resourceValues);
-                exit();
+                $resourceRout = str_replace('{id}', $resourceValues, $route);
+                if ($resourceRout == $this->currentRoute) {
+                    $callback($resourceValues);
+                    exit();
+                }
             }
             if ($route == $this->currentRoute) {
                 $callback($resourceValues);
@@ -44,8 +46,11 @@ class Router
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $resourceValues = $this->getResource($route);
             if ($resourceValues) {
-                $callback($resourceValues);
-                exit();
+                $resourceRout = str_replace('{id}', $resourceValues, $route);
+                if ($resourceRout == $this->currentRoute) {
+                    $callback($resourceValues);
+                    exit();
+                }
             }
             if ($route == $this->currentRoute) {
                 $callback();

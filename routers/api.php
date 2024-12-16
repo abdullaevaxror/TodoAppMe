@@ -9,7 +9,7 @@ $router=new Router();
 $todo=new \App\Todo();
 
 $router->getRoute('/api/todos',function () use ($todo){
-    apiResponse($todo->get(33));
+    apiResponse($todo->get(4));
 });
 $router->getRoute('/api/todos/{id}',function ($todoId)use ($todo){
     apiResponse($todo->getById($todoId));
