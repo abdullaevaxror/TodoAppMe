@@ -52,6 +52,10 @@ class Router
     {
         return mb_stripos($this->currentRoute,'/api') === 0;
     }
+    public function isTelegram():bool
+    {
+        return mb_stripos($this->currentRoute,'/telegram') === 0;
+    }
     public function Rendor($route, $callback): void
     {
         $resourceValues = $this->getResource($route);
