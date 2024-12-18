@@ -53,5 +53,5 @@
         }
     </style>
 <a href="/todos" class="custom-button-but">Go to Todo</a>
-<a href="/bot" class="custom-button-but">Telegram</a>
+<a href="/telegram" class="custom-button-but">Telegram</a>
 <?php require 'view/components/footer.php'?>
