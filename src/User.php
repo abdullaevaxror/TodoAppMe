@@ -9,13 +9,14 @@ class User
 {
     public $pdo;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = new DB();
         $this->pdo = $db->conn;
     }
 
-    // Emailni tekshirish metodi
-    public function isEmailExist(string $email): bool {
+    public function isEmailExist(string $email): bool
+    {
         $query = 'SELECT COUNT(*) FROM users WHERE email = :email';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':email' => $email]);
@@ -23,7 +24,8 @@ class User
     }
 
     // Ro'yxatdan o'tish metodi
-    public function register(string $fullName, string $email, string $password):mixed {
+    public function register(string $fullName, string $email, string $password): mixed
+    {
         if ($this->isEmailExist($email)) {
             echo "Bu email allaqachon ro'yxatdan o'tgan!";
             return false;
@@ -39,14 +41,17 @@ class User
         $id = $this->pdo->lastInsertId();
         return $this->getUserById($id);
     }
-    public function getUserById(int $id): array{
+
+    public function getUserById(int $id): array
+    {
         $query = 'SELECT * FROM users WHERE id = :id';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function login(string $email, string $password): bool|array {
+    public function login(string $email, string $password): bool|array
+    {
         try {
             $query = 'SELECT * FROM users WHERE email = :email';
             $stmt = $this->pdo->prepare($query);
@@ -89,7 +94,8 @@ class User
             ':userId' => $userId    // SQL so'rovdagi :userId parametri uchun qiymat
         ]);
     }
-        public function getTasksByChatId(int $chatId): array
+
+    public function getTasksByChatId(int $chatId): array
     {
         try {
             $query = '
