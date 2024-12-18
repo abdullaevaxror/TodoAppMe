@@ -5,10 +5,10 @@ use App\Router;
 $router = new Router();
 
 
-if($router->isApiCall()){
+if ($router->isApiCall()) {
     require 'routers/api.php';
 }
-if($router->isTelegram()){
+if ($router->isTelegram()) {
     require 'routers/telegram.php';
 }
 require 'routers/web.php';

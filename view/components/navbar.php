@@ -19,6 +19,9 @@
                     <li><a class="dropdown-item" href="/todos">To-do List</a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['full_name'] ?? '' ?></a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['email'] ?? '' ?></a></li>
+                    <li><a class="dropdown-item text-primary"
+                           href="https://t.me/todoapptask_bot?start=<?= $_SESSION['user']['id'] ?>" target="_blank">Sync
+                            Telegram</a></li>
                     <form action="/logout" method="POST" class="d-inline">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-box-arrow-right"></i> Logout
@@ -39,7 +42,7 @@
 
 <style>
     .navbar {
-        background-color:#000053;
+        background-color: #000053;
         color: white;
         padding: 10px 20px;
         position: fixed;

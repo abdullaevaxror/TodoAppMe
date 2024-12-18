@@ -2,50 +2,25 @@
 
 namespace App;
 
-use Dotenv\Dotenv;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Bot
 {
-    private $client; // Guzzle klienti
-    private $botToken; // Telegram bot tokeni
+    private Client $client;
 
     public function __construct()
     {
-        $this->client = new Client();
-        $this->botToken = getenv('TELEGRAM_BOT_TOKEN'); // .env fayldan tokenni oladi
+        $this->client = new Client([
+            'base_uri' => "https://api.telegram.org/bot" . $_ENV['TELEGRAM_TOKEN'] . "/"
+        ]);
     }
 
-    // Xabar yuborish funksiyasi
-    public function sendMessage($chatId, $message)
+    /**
+     * @throws GuzzleException
+     */
+    public function makeRequest(string $method, array $params): void
     {
-        try {
-            $response = $this->client->post("https://api.telegram.org/bot{$this->botToken}/sendMessage", [
-                'form_params' => [
-                    'chat_id' => $chatId,
-                    'text' => $message
-                ]
-            ]);
-            return json_decode($response->getBody(), true);
-        } catch (\Exception $e) {
-            return ['error' => $e->getMessage()];
-        }
-    }
-
-    // Botdan kelgan so'rovni qayta ishlash
-    public function handleRequest($request)
-    {
-        $update = json_decode($request, true);
-        if (isset($update['message']['text']) && isset($update['message']['chat']['id'])) {
-            $chatId = $update['message']['chat']['id'];
-            $text = $update['message']['text'];
-
-            // Foydalanuvchi so'roviga javob berish
-            if (strtolower($text) === 'salom') {
-                $this->sendMessage($chatId, 'Salom! Qanday yordam bera olaman?');
-            } else {
-                $this->sendMessage($chatId, "Sizning xabaringiz: $text");
-            }
-        }
+        $this->client->post($method, ['json' => $params]);
     }
 }
