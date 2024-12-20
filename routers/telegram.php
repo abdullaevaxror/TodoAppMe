@@ -20,6 +20,9 @@ if ($text == '/start') {
     ]);
     exit();
 }
+
+//if ($callbackQuery)
+
 // "/start" -> "/start"
 if (mb_stripos($text, '/start') !== false) {
     $userId = explode('/start', $text)[1];
